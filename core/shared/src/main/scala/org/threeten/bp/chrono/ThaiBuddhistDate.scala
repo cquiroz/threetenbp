@@ -177,7 +177,7 @@ final class ThaiBuddhistDate private[chrono] (private val isoDate: LocalDate)
             case _ => getChronology.range(f)
           }
         } else {
-          throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          throw throw UnsupportedTemporalTypeException.field(field)
         }
       case _ =>
         field.rangeRefinedBy(this)

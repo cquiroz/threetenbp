@@ -118,7 +118,7 @@ object DayOfWeek {
 
   /** Private cache of all the constants.
     */
-  private lazy val ENUMS: Array[DayOfWeek] = DayOfWeek.values
+  private def ENUMS: Array[DayOfWeek] = DayOfWeek.values
 
   /** Obtains an instance of {@code DayOfWeek} from an {@code int} value.
     *
@@ -242,7 +242,7 @@ final class DayOfWeek(name: String, ordinal: Int)
     if (field eq DAY_OF_WEEK)
       field.range
     else if (field.isInstanceOf[ChronoField])
-      throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      throw throw UnsupportedTemporalTypeException.field(field)
     else
       field.rangeRefinedBy(this)
 
@@ -299,7 +299,7 @@ final class DayOfWeek(name: String, ordinal: Int)
     if (field eq DAY_OF_WEEK)
       getValue.toLong
     else if (field.isInstanceOf[ChronoField])
-      throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      throw throw UnsupportedTemporalTypeException.field(field)
     else
       field.getFrom(this)
 

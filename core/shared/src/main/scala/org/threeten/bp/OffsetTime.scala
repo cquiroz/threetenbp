@@ -919,7 +919,7 @@ final class OffsetTime(private val time: LocalTime, private val offset: ZoneOffs
           case MINUTES   => nanosUntil / NANOS_PER_MINUTE
           case HOURS     => nanosUntil / NANOS_PER_HOUR
           case HALF_DAYS => nanosUntil / (12 * NANOS_PER_HOUR)
-          case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+          case _         => throw UnsupportedTemporalTypeException.unit(unit)
         }
       case _ =>
         unit.between(this, end)

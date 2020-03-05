@@ -385,7 +385,7 @@ final class Year private (private val year: Int)
           case YEAR_OF_ERA => if (year < 1) 1L - year.toLong else year.toLong
           case YEAR        => year.toLong
           case ERA         => if (year < 1) 0 else 1
-          case _           => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          case _           => throw throw UnsupportedTemporalTypeException.field(field)
         }
       case _ => field.getFrom(this)
     }
@@ -492,7 +492,7 @@ final class Year private (private val year: Int)
           case YEAR_OF_ERA => Year.of((if (year < 1) 1 - newValue else newValue).toInt)
           case YEAR        => Year.of(newValue.toInt)
           case ERA         => if (getLong(ERA) == newValue) this else Year.of(1 - year)
-          case _           => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          case _           => throw throw UnsupportedTemporalTypeException.field(field)
         }
       case _ =>
         field.adjustInto(this, newValue)
@@ -529,7 +529,7 @@ final class Year private (private val year: Int)
           case CENTURIES => plusYears(Math.multiplyExact(amountToAdd, 100))
           case MILLENNIA => plusYears(Math.multiplyExact(amountToAdd, 1000))
           case ERAS      => `with`(ERA, Math.addExact(getLong(ERA), amountToAdd))
-          case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+          case _         => throw throw UnsupportedTemporalTypeException.unit(unit)
         }
       case _ =>
         unit.addTo(this, amountToAdd)
@@ -698,7 +698,7 @@ final class Year private (private val year: Int)
           case CENTURIES => yearsUntil / 100
           case MILLENNIA => yearsUntil / 1000
           case ERAS      => end.getLong(ERA) - getLong(ERA)
-          case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+          case _         => throw UnsupportedTemporalTypeException.unit(unit)
         }
       case _ =>
         unit.between(this, end)

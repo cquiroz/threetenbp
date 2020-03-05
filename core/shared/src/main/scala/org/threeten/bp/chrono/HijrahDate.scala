@@ -79,19 +79,17 @@ object HijrahDate {
   /** 0-based, for number of day-of-year in the beginning of month in normal
     * year.
     */
-  private lazy val NUM_DAYS: Array[Int] =
-    Array(0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 325)
+  private def NUM_DAYS: Array[Int] = Array(0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 325)
 
   /** 0-based, for number of day-of-year in the beginning of month in leap year. */
-  private lazy val LEAP_NUM_DAYS: Array[Int] =
+  private def LEAP_NUM_DAYS: Array[Int] =
     Array(0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 325)
 
   /** 0-based, for day-of-month in normal year. */
-  private lazy val MONTH_LENGTH: Array[Int] = Array(30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29)
+  private def MONTH_LENGTH: Array[Int] = Array(30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29)
 
   /** 0-based, for day-of-month in leap year. */
-  private lazy val LEAP_MONTH_LENGTH: Array[Int] =
-    Array(30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30)
+  private def LEAP_MONTH_LENGTH: Array[Int] = Array(30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30)
 
   /** <pre>
     * Greatest       Least
@@ -109,53 +107,53 @@ object HijrahDate {
   // private val MIN_VALUES: Array[Int] = Array(0, MIN_VALUE_OF_ERA, 0, 1, 0, 1, 1)
 
   /** Least maximum values. */
-  private lazy val LEAST_MAX_VALUES: Array[Int] = Array(1, MAX_VALUE_OF_ERA, 11, 51, 5, 29, 354)
+  private def LEAST_MAX_VALUES: Array[Int] = Array(1, MAX_VALUE_OF_ERA, 11, 51, 5, 29, 354)
 
   /** Maximum values. */
-  private lazy val MAX_VALUES: Array[Int] = Array(1, MAX_VALUE_OF_ERA, 11, 52, 6, 30, 355)
+  private def MAX_VALUES: Array[Int] = Array(1, MAX_VALUE_OF_ERA, 11, 52, 6, 30, 355)
 
   /** Position of day-of-month. This value is used to get the min/max value
     * from an array.
     */
-  private val POSITION_DAY_OF_MONTH: Int = 5
+  private def POSITION_DAY_OF_MONTH: Int = 5
 
   /** Position of day-of-year. This value is used to get the min/max value from
     * an array.
     */
-  private val POSITION_DAY_OF_YEAR: Int = 6
+  private def POSITION_DAY_OF_YEAR: Int = 6
 
   /** Zero-based start date of cycle year. */
-  private lazy val CYCLEYEAR_START_DATE: Array[Int] =
+  private def CYCLEYEAR_START_DATE: Array[Int] =
     Array(0, 354, 709, 1063, 1417, 1772, 2126, 2481, 2835, 3189, 3544, 3898, 4252, 4607, 4961, 5315,
       5670, 6024, 6379, 6733, 7087, 7442, 7796, 8150, 8505, 8859, 9214, 9568, 9922, 10277)
 
   /** number of 30-year cycles to hold the deviation data. */
-  private val MAX_ADJUSTED_CYCLE: Int = 334
+  private def MAX_ADJUSTED_CYCLE: Int = 334
 
   /** Holding the adjusted month days in year. The key is a year (Integer) and
     * the value is the all the month days in year (Integer[]).
     */
-  private lazy val ADJUSTED_MONTH_DAYS: java.util.HashMap[Integer, Array[Integer]] =
+  private def ADJUSTED_MONTH_DAYS: java.util.HashMap[Integer, Array[Integer]] =
     new java.util.HashMap[Integer, Array[Integer]]
 
   /** Holding the adjusted month length in year. The key is a year (Integer)
     * and the value is the all the month length in year (Integer[]).
     */
-  private lazy val ADJUSTED_MONTH_LENGTHS: java.util.HashMap[Integer, Array[Integer]] =
+  private def ADJUSTED_MONTH_LENGTHS: java.util.HashMap[Integer, Array[Integer]] =
     new java.util.HashMap[Integer, Array[Integer]]
 
   /** Holding the adjusted days in the 30 year cycle. The key is a cycle number
     * (Integer) and the value is the all the starting days of the year in the
     * cycle (Integer[]).
     */
-  private lazy val ADJUSTED_CYCLE_YEARS: java.util.HashMap[Integer, Array[Integer]] =
+  private def ADJUSTED_CYCLE_YEARS: java.util.HashMap[Integer, Array[Integer]] =
     new java.util.HashMap[Integer, Array[Integer]]
 
   /** Holding the adjusted cycle in the 1 - 30000 year. The key is the cycle
     * number (Integer) and the value is the starting days in the cycle in the
     * term.
     */
-  private lazy val ADJUSTED_CYCLES: Array[Long] = {
+  private def ADJUSTED_CYCLES: Array[Long] = {
     val cycles = new Array[Long](MAX_ADJUSTED_CYCLE)
     var i: Int = 0
     while (i < MAX_ADJUSTED_CYCLE) {
@@ -177,7 +175,7 @@ object HijrahDate {
   // }
 
   /** Holding the adjusted max least max values. */
-  private lazy val ADJUSTED_LEAST_MAX_VALUES: Array[Integer] = {
+  private def ADJUSTED_LEAST_MAX_VALUES: Array[Integer] = {
     val values = new Array[Integer](LEAST_MAX_VALUES.length)
     var i: Int = 0
     while (i < LEAST_MAX_VALUES.length) {
@@ -188,7 +186,7 @@ object HijrahDate {
   }
 
   /** Holding adjusted max values. */
-  private lazy val ADJUSTED_MAX_VALUES: Array[Integer] = {
+  private def ADJUSTED_MAX_VALUES: Array[Integer] = {
     val values = new Array[Integer](MAX_VALUES.length)
     var i: Int = 0
     while (i < MAX_VALUES.length) {
@@ -199,7 +197,7 @@ object HijrahDate {
   }
 
   /** Holding the non-adjusted month days in year for non leap year. */
-  private lazy val DEFAULT_MONTH_DAYS: Array[Integer] = {
+  private def DEFAULT_MONTH_DAYS: Array[Integer] = {
     val days   = new Array[Integer](NUM_DAYS.length)
     var i: Int = 0
     while (i < NUM_DAYS.length) {
@@ -210,7 +208,7 @@ object HijrahDate {
   }
 
   /** Holding the non-adjusted month days in year for leap year. */
-  private lazy val DEFAULT_LEAP_MONTH_DAYS: Array[Integer] = {
+  private def DEFAULT_LEAP_MONTH_DAYS: Array[Integer] = {
     val days   = new Array[Integer](LEAP_NUM_DAYS.length)
     var i: Int = 0
     while (i < LEAP_NUM_DAYS.length) {
@@ -221,7 +219,7 @@ object HijrahDate {
   }
 
   /** Holding the non-adjusted month length for non leap year. */
-  private lazy val DEFAULT_MONTH_LENGTHS: Array[Integer] = {
+  private def DEFAULT_MONTH_LENGTHS: Array[Integer] = {
     val lengths = new Array[Integer](MONTH_LENGTH.length)
     var i: Int  = 0
     while (i < MONTH_LENGTH.length) {
@@ -232,7 +230,7 @@ object HijrahDate {
   }
 
   /** Holding the non-adjusted month length for leap year. */
-  private lazy val DEFAULT_LEAP_MONTH_LENGTHS: Array[Integer] = {
+  private def DEFAULT_LEAP_MONTH_LENGTHS: Array[Integer] = {
     val lengths = new Array[Integer](LEAP_MONTH_LENGTH.length)
     var i: Int  = 0
     while (i < LEAP_MONTH_LENGTH.length) {
@@ -243,7 +241,7 @@ object HijrahDate {
   }
 
   /** Holding the non-adjusted 30 year cycle starting day. */
-  private lazy val DEFAULT_CYCLE_YEARS: Array[Integer] = {
+  private def DEFAULT_CYCLE_YEARS: Array[Integer] = {
     val years  = new Array[Integer](CYCLEYEAR_START_DATE.length)
     var i: Int = 0
     while (i < CYCLEYEAR_START_DATE.length) {
@@ -256,7 +254,7 @@ object HijrahDate {
   /** Number of Gregorian day of July 19, year 622 (Gregorian), which is epoch day
     * of Hijrah calendar.
     */
-  private val HIJRAH_JAN_1_1_GREGORIAN_DAY: Int = -492148
+  private def HIJRAH_JAN_1_1_GREGORIAN_DAY: Int = -492148
 
   try HijrahDateConfigurator.readDeviationConfig()
   catch {
@@ -1197,7 +1195,7 @@ final class HijrahDate private (private val gregorianEpochDay: Long)
           case _                     => getChronology.range(f)
         }
       } else {
-        throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+        throw throw UnsupportedTemporalTypeException.field(field)
       }
     } else {
       field.rangeRefinedBy(this)
@@ -1219,7 +1217,7 @@ final class HijrahDate private (private val gregorianEpochDay: Long)
           case YEAR_OF_ERA                  => yearOfEra.toLong
           case YEAR                         => yearOfEra.toLong
           case ERA                          => era.getValue.toLong
-          case _                            => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          case _                            => throw throw UnsupportedTemporalTypeException.field(field)
         }
       case _ => field.getFrom(this)
     }
@@ -1253,7 +1251,7 @@ final class HijrahDate private (private val gregorianEpochDay: Long)
                                           dayOfMonth)
         case YEAR => HijrahDate.resolvePreviousValid(nvalue, monthOfYear, dayOfMonth)
         case ERA  => HijrahDate.resolvePreviousValid(1 - yearOfEra, monthOfYear, dayOfMonth)
-        case _    => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+        case _    => throw throw UnsupportedTemporalTypeException.field(field)
       }
     } else {
       field.adjustInto(this, newValue)

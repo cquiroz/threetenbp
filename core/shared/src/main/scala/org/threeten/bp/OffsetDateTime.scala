@@ -91,7 +91,7 @@ object OffsetDateTime {
     */
   def timeLineOrder: Comparator[OffsetDateTime] = INSTANT_COMPARATOR
 
-  private lazy val INSTANT_COMPARATOR: Comparator[OffsetDateTime] =
+  private def INSTANT_COMPARATOR: Comparator[OffsetDateTime] =
     new Comparator[OffsetDateTime] {
       override def compare(datetime1: OffsetDateTime, datetime2: OffsetDateTime): Int = {
         var cmp: Int = java.lang.Long.compare(datetime1.toEpochSecond, datetime2.toEpochSecond)

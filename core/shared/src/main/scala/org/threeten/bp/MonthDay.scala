@@ -59,12 +59,13 @@ import org.threeten.bp.temporal.ValueRange
 object MonthDay {
 
   /** Parser. */
-  private lazy val PARSER: DateTimeFormatter = new DateTimeFormatterBuilder()
-    .appendLiteral("--")
-    .appendValue(MONTH_OF_YEAR, 2)
-    .appendLiteral('-')
-    .appendValue(DAY_OF_MONTH, 2)
-    .toFormatter
+  private def PARSER: DateTimeFormatter =
+    new DateTimeFormatterBuilder()
+      .appendLiteral("--")
+      .appendValue(MONTH_OF_YEAR, 2)
+      .appendLiteral('-')
+      .appendValue(DAY_OF_MONTH, 2)
+      .toFormatter
 
   /** Obtains the current month-day from the system clock in the default time-zone.
     *
@@ -317,7 +318,7 @@ final class MonthDay private (private val month: Int, private val day: Int)
       ValueRange.of(1, getMonth.minLength.toLong, getMonth.maxLength.toLong)
     else if (field.isInstanceOf[ChronoField])
       if (isSupported(field)) field.range
-      else throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      else throw UnsupportedTemporalTypeException.field(field)
     else
       field.rangeRefinedBy(this)
 
@@ -373,7 +374,7 @@ final class MonthDay private (private val month: Int, private val day: Int)
         field1 match {
           case DAY_OF_MONTH  => day.toLong
           case MONTH_OF_YEAR => month.toLong
-          case _             => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          case _             => throw UnsupportedTemporalTypeException.field(field)
         }
       case _ => field.getFrom(this)
     }

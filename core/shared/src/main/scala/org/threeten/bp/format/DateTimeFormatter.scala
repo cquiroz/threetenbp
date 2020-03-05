@@ -47,7 +47,6 @@ import java.text.ParseException
 import java.text.ParsePosition
 import java.lang.StringBuilder
 import java.util.{ Arrays, Collections, Locale, Objects }
-import java.lang.Long
 
 import org.threeten.bp.DateTimeException
 import org.threeten.bp.Period
@@ -61,6 +60,7 @@ import org.threeten.bp.temporal.TemporalField
 import org.threeten.bp.temporal.TemporalQuery
 import org.threeten.bp.format.internal.TTBPDateTimeParseContext
 import org.threeten.bp.format.internal.TTBPDateTimePrintContext
+import scala.collection.JavaConverters._
 
 object DateTimeFormatter {
 
@@ -82,14 +82,15 @@ object DateTimeFormatter {
     * This is pre-padded by zero to ensure two digits.
     * </ul><p>
     */
-  lazy val ISO_LOCAL_DATE: DateTimeFormatter = new DateTimeFormatterBuilder()
-    .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-    .appendLiteral('-')
-    .appendValue(MONTH_OF_YEAR, 2)
-    .appendLiteral('-')
-    .appendValue(DAY_OF_MONTH, 2)
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_LOCAL_DATE: DateTimeFormatter =
+    new DateTimeFormatterBuilder()
+      .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+      .appendLiteral('-')
+      .appendValue(MONTH_OF_YEAR, 2)
+      .appendLiteral('-')
+      .appendValue(DAY_OF_MONTH, 2)
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the ISO date formatter that prints/parses a date with an offset,
     * such as '2011-12-03+01:00'.
@@ -104,11 +105,12 @@ object DateTimeFormatter {
     * Parsing is case insensitive.
     * </ul><p>
     */
-  lazy val ISO_OFFSET_DATE: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .append(ISO_LOCAL_DATE)
-    .appendOffsetId
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_OFFSET_DATE: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .append(ISO_LOCAL_DATE)
+      .appendOffsetId
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the ISO date formatter that prints/parses a date with the
     * offset if available, such as '2011-12-03' or '2011-12-03+01:00'.
@@ -126,12 +128,13 @@ object DateTimeFormatter {
     * As this formatter has an optional element, it may be necessary to parse using
     * {@link DateTimeFormatter#parseBest}.
     */
-  lazy val ISO_DATE: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .append(ISO_LOCAL_DATE)
-    .optionalStart()
-    .appendOffsetId
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_DATE: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .append(ISO_LOCAL_DATE)
+      .optionalStart()
+      .appendOffsetId
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the ISO time formatter that prints/parses a time without an offset,
     * such as '10:15' or '10:15:30'.
@@ -155,16 +158,17 @@ object DateTimeFormatter {
     * As many digits will be printed as required.
     * </ul><p>
     */
-  lazy val ISO_LOCAL_TIME: DateTimeFormatter = new DateTimeFormatterBuilder()
-    .appendValue(HOUR_OF_DAY, 2)
-    .appendLiteral(':')
-    .appendValue(MINUTE_OF_HOUR, 2)
-    .optionalStart()
-    .appendLiteral(':')
-    .appendValue(SECOND_OF_MINUTE, 2)
-    .optionalStart()
-    .appendFraction(NANO_OF_SECOND, 0, 9, true)
-    .toFormatter(ResolverStyle.STRICT)
+  def ISO_LOCAL_TIME: DateTimeFormatter =
+    new DateTimeFormatterBuilder()
+      .appendValue(HOUR_OF_DAY, 2)
+      .appendLiteral(':')
+      .appendValue(MINUTE_OF_HOUR, 2)
+      .optionalStart()
+      .appendLiteral(':')
+      .appendValue(SECOND_OF_MINUTE, 2)
+      .optionalStart()
+      .appendFraction(NANO_OF_SECOND, 0, 9, true)
+      .toFormatter(ResolverStyle.STRICT)
 
   /** Returns the ISO time formatter that prints/parses a time with an offset,
     * such as '10:15+01:00' or '10:15:30+01:00'.
@@ -179,10 +183,11 @@ object DateTimeFormatter {
     * Parsing is case insensitive.
     * </ul><p>
     */
-  lazy val ISO_OFFSET_TIME: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .append(ISO_LOCAL_TIME)
-    .appendOffsetId
-    .toFormatter(ResolverStyle.STRICT)
+  def ISO_OFFSET_TIME: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .append(ISO_LOCAL_TIME)
+      .appendOffsetId
+      .toFormatter(ResolverStyle.STRICT)
 
   /** Returns the ISO time formatter that prints/parses a time, with the
     * offset if available, such as '10:15', '10:15:30' or '10:15:30+01:00'.
@@ -200,11 +205,12 @@ object DateTimeFormatter {
     * As this formatter has an optional element, it may be necessary to parse using
     * {@link DateTimeFormatter#parseBest}.
     */
-  lazy val ISO_TIME: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .append(ISO_LOCAL_TIME)
-    .optionalStart()
-    .appendOffsetId
-    .toFormatter(ResolverStyle.STRICT)
+  def ISO_TIME: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .append(ISO_LOCAL_TIME)
+      .optionalStart()
+      .appendOffsetId
+      .toFormatter(ResolverStyle.STRICT)
 
   /** Returns the ISO date formatter that prints/parses a date-time
     * without an offset, such as '2011-12-03T10:15:30'.
@@ -218,7 +224,7 @@ object DateTimeFormatter {
     * <li>The {@link #ISO_LOCAL_TIME}
     * </ul><p>
     */
-  lazy val ISO_LOCAL_DATE_TIME: DateTimeFormatter =
+  def ISO_LOCAL_DATE_TIME: DateTimeFormatter =
     new DateTimeFormatterBuilder().parseCaseInsensitive
       .append(ISO_LOCAL_DATE)
       .appendLiteral('T')
@@ -239,7 +245,7 @@ object DateTimeFormatter {
     * Parsing is case insensitive.
     * </ul><p>
     */
-  lazy val ISO_OFFSET_DATE_TIME: DateTimeFormatter =
+  def ISO_OFFSET_DATE_TIME: DateTimeFormatter =
     new DateTimeFormatterBuilder().parseCaseInsensitive
       .append(ISO_LOCAL_DATE_TIME)
       .appendOffsetId
@@ -262,15 +268,16 @@ object DateTimeFormatter {
     * <li>A close square bracket ']'.
     * </ul><p>
     */
-  lazy val ISO_ZONED_DATE_TIME: DateTimeFormatter = new DateTimeFormatterBuilder()
-    .append(ISO_OFFSET_DATE_TIME)
-    .optionalStart()
-    .appendLiteral('[')
-    .parseCaseSensitive
-    .appendZoneRegionId
-    .appendLiteral(']')
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_ZONED_DATE_TIME: DateTimeFormatter =
+    new DateTimeFormatterBuilder()
+      .append(ISO_OFFSET_DATE_TIME)
+      .optionalStart()
+      .appendLiteral('[')
+      .parseCaseSensitive
+      .appendZoneRegionId
+      .appendLiteral(']')
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the ISO date formatter that prints/parses a date-time
     * with the offset and zone if available, such as '2011-12-03T10:15:30',
@@ -293,17 +300,18 @@ object DateTimeFormatter {
     * As this formatter has an optional element, it may be necessary to parse using
     * {@link DateTimeFormatter#parseBest}.
     */
-  lazy val ISO_DATE_TIME: DateTimeFormatter = new DateTimeFormatterBuilder()
-    .append(ISO_LOCAL_DATE_TIME)
-    .optionalStart()
-    .appendOffsetId
-    .optionalStart()
-    .appendLiteral('[')
-    .parseCaseSensitive
-    .appendZoneRegionId
-    .appendLiteral(']')
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_DATE_TIME: DateTimeFormatter =
+    new DateTimeFormatterBuilder()
+      .append(ISO_LOCAL_DATE_TIME)
+      .optionalStart()
+      .appendOffsetId
+      .optionalStart()
+      .appendLiteral('[')
+      .parseCaseSensitive
+      .appendZoneRegionId
+      .appendLiteral(']')
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the ISO date formatter that prints/parses the ordinal date
     * without an offset, such as '2012-337'.
@@ -326,14 +334,15 @@ object DateTimeFormatter {
     * As this formatter has an optional element, it may be necessary to parse using
     * {@link DateTimeFormatter#parseBest}.
     */
-  lazy val ISO_ORDINAL_DATE: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-    .appendLiteral('-')
-    .appendValue(DAY_OF_YEAR, 3)
-    .optionalStart()
-    .appendOffsetId
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_ORDINAL_DATE: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+      .appendLiteral('-')
+      .appendValue(DAY_OF_YEAR, 3)
+      .optionalStart()
+      .appendOffsetId
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the ISO date formatter that prints/parses the week-based date
     * without an offset, such as '2012-W48-6'.
@@ -360,16 +369,17 @@ object DateTimeFormatter {
     * As this formatter has an optional element, it may be necessary to parse using
     * {@link DateTimeFormatter#parseBest}.
     */
-  lazy val ISO_WEEK_DATE: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .appendValue(IsoFields.WEEK_BASED_YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-    .appendLiteral("-W")
-    .appendValue(IsoFields.WEEK_OF_WEEK_BASED_YEAR, 2)
-    .appendLiteral('-')
-    .appendValue(DAY_OF_WEEK, 1)
-    .optionalStart()
-    .appendOffsetId
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def ISO_WEEK_DATE: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .appendValue(IsoFields.WEEK_BASED_YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+      .appendLiteral("-W")
+      .appendValue(IsoFields.WEEK_OF_WEEK_BASED_YEAR, 2)
+      .appendLiteral('-')
+      .appendValue(DAY_OF_WEEK, 1)
+      .optionalStart()
+      .appendOffsetId
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** The ISO instant formatter that formats or parses an instant in UTC,
     * such as '2011-12-03T10:15:30Z'.
@@ -401,7 +411,7 @@ object DateTimeFormatter {
     * The returned formatter has no override chronology or zone.
     * It uses the {@link ResolverStyle#STRICT STRICT} resolver style.
     */
-  lazy val ISO_INSTANT: DateTimeFormatter =
+  def ISO_INSTANT: DateTimeFormatter =
     new DateTimeFormatterBuilder().parseCaseInsensitive.appendInstant
       .toFormatter(ResolverStyle.STRICT)
 
@@ -426,14 +436,15 @@ object DateTimeFormatter {
     * As this formatter has an optional element, it may be necessary to parse using
     * {@link DateTimeFormatter#parseBest}.
     */
-  lazy val BASIC_ISO_DATE: DateTimeFormatter = new DateTimeFormatterBuilder().parseCaseInsensitive
-    .appendValue(YEAR, 4)
-    .appendValue(MONTH_OF_YEAR, 2)
-    .appendValue(DAY_OF_MONTH, 2)
-    .optionalStart()
-    .appendOffset("+HHMMss", "Z")
-    .toFormatter(ResolverStyle.STRICT)
-    .withChronology(IsoChronology.INSTANCE)
+  def BASIC_ISO_DATE: DateTimeFormatter =
+    new DateTimeFormatterBuilder().parseCaseInsensitive
+      .appendValue(YEAR, 4)
+      .appendValue(MONTH_OF_YEAR, 2)
+      .appendValue(DAY_OF_MONTH, 2)
+      .optionalStart()
+      .appendOffset("+HHMMss", "Z")
+      .toFormatter(ResolverStyle.STRICT)
+      .withChronology(IsoChronology.INSTANCE)
 
   /** Returns the RFC-1123 date-time formatter, such as 'Tue, 3 Jun 2008 11:05:30 GMT'.
     *
@@ -472,37 +483,31 @@ object DateTimeFormatter {
     * </ul><p>
     * Parsing is case insensitive.
     */
-  lazy val RFC_1123_DATE_TIME: DateTimeFormatter = {
+  val RFC_1123_DATE_TIME: DateTimeFormatter = {
     // Size checked
-    val dow: java.util.Map[Long, String] = new java.util.HashMap[Long, String]
-    dow.put(1L, "Mon")
-    dow.put(2L, "Tue")
-    dow.put(3L, "Wed")
-    dow.put(4L, "Thu")
-    dow.put(5L, "Fri")
-    dow.put(6L, "Sat")
-    dow.put(7L, "Sun")
-    val moy: java.util.Map[Long, String] = new java.util.HashMap[Long, String]
-    moy.put(1L, "Jan")
-    moy.put(2L, "Feb")
-    moy.put(3L, "Mar")
-    moy.put(4L, "Apr")
-    moy.put(5L, "May")
-    moy.put(6L, "Jun")
-    moy.put(7L, "Jul")
-    moy.put(8L, "Aug")
-    moy.put(9L, "Sep")
-    moy.put(10L, "Oct")
-    moy.put(11L, "Nov")
-    moy.put(12L, "Dec")
+    val dow: Map[scala.Long, String] =
+      Map(1L -> "Mon", 2L -> "Tue", 3L -> "Wed", 4L -> "Thu", 5L -> "Fri", 6L -> "Sat", 7L -> "Sun")
+    val moy: Map[scala.Long, String] =
+      Map(1L -> "Jan",
+          2L -> "Feb",
+          3L -> "Mar",
+          4L -> "Apr",
+          5L -> "May",
+          6L -> "Jun",
+          7L -> "Jul",
+          8L -> "Aug",
+          9L -> "Sep",
+          10L -> "Oct",
+          11L -> "Nov",
+          12L -> "Dec")
     new DateTimeFormatterBuilder().parseCaseInsensitive.parseLenient
       .optionalStart()
-      .appendText(DAY_OF_WEEK, dow)
+      .appendText(DAY_OF_WEEK, dow.map(x => (Long.box(x._1), x._2)).asJava)
       .appendLiteral(", ")
       .optionalEnd()
       .appendValue(DAY_OF_MONTH, 1, 2, SignStyle.NOT_NEGATIVE)
       .appendLiteral(' ')
-      .appendText(MONTH_OF_YEAR, moy)
+      .appendText(MONTH_OF_YEAR, moy.map(x => (Long.box(x._1), x._2)).asJava)
       .appendLiteral(' ')
       .appendValue(YEAR, 4)
       .appendLiteral(' ')

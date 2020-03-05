@@ -151,7 +151,7 @@ object Month {
 
   /** Private cache of all the constants.
     */
-  private lazy val ENUMS: Array[Month] = Month.values
+  private def ENUMS: Array[Month] = Month.values
 
   /** Obtains an instance of {@code Month} from an {@code int} value.
     *
@@ -282,7 +282,7 @@ final class Month private (name: String, ordinal: Int)
     if (field eq MONTH_OF_YEAR)
       field.range
     else if (field.isInstanceOf[ChronoField])
-      throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      throw UnsupportedTemporalTypeException.field(field)
     else
       field.rangeRefinedBy(this)
 
@@ -339,7 +339,7 @@ final class Month private (name: String, ordinal: Int)
     if (field eq MONTH_OF_YEAR)
       getValue.toLong
     else if (field.isInstanceOf[ChronoField])
-      throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      throw throw UnsupportedTemporalTypeException.field(field)
     else
       field.getFrom(this)
 

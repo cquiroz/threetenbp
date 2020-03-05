@@ -1374,6 +1374,9 @@ final class DateTimeFormatterBuilder private (
     this
   }
 
+  def tooManyPattern(cur: Char): IllegalArgumentException =
+    new IllegalArgumentException(s"Too many pattern letters: $cur")
+
   private def parsePattern(pattern: String): Unit = {
     var pos: Int = 0
     while (pos < pattern.length) {
@@ -1410,7 +1413,7 @@ final class DateTimeFormatterBuilder private (
           parseField(cur, count, field)
         else if (cur == 'z') {
           if (count > 4)
-            throw new IllegalArgumentException(s"Too many pattern letters: $cur")
+            throw tooManyPattern(cur)
           else if (count == 4)
             appendZoneText(TextStyle.FULL)
           else
@@ -1427,7 +1430,7 @@ final class DateTimeFormatterBuilder private (
           else if (count == 5)
             appendOffset("+HH:MM:ss", "Z")
           else
-            throw new IllegalArgumentException(s"Too many pattern letters: $cur")
+            throw tooManyPattern(cur)
         } else if (cur == 'O') {
           if (count == 1)
             appendLocalizedOffset(TextStyle.SHORT)
@@ -1437,24 +1440,24 @@ final class DateTimeFormatterBuilder private (
             throw new IllegalArgumentException(s"Pattern letter count must be 1 or 4: $cur")
         } else if (cur == 'X') {
           if (count > 5)
-            throw new IllegalArgumentException(s"Too many pattern letters: $cur")
+            throw tooManyPattern(cur)
           appendOffset(TTBPDateTimeFormatterBuilder.OffsetIdPrinterParser
                          .PATTERNS(count + (if (count == 1) 0 else 1)),
                        "Z")
         } else if (cur == 'x') {
           if (count > 5)
-            throw new IllegalArgumentException(s"Too many pattern letters: $cur")
+            throw tooManyPattern(cur)
           val zero: String = if (count == 1) "+00" else if (count % 2 == 0) "+0000" else "+00:00"
           appendOffset(TTBPDateTimeFormatterBuilder.OffsetIdPrinterParser
                          .PATTERNS(count + (if (count == 1) 0 else 1)),
                        zero)
         } else if (cur == 'W') {
           if (count > 1)
-            throw new IllegalArgumentException(s"Too many pattern letters: $cur")
+            throw tooManyPattern(cur)
           appendInternal(new TTBPDateTimeFormatterBuilder.WeekFieldsPrinterParser('W', count))
         } else if (cur == 'w') {
           if (count > 2)
-            throw new IllegalArgumentException(s"Too many pattern letters: $cur")
+            throw tooManyPattern(cur)
           appendInternal(new TTBPDateTimeFormatterBuilder.WeekFieldsPrinterParser('w', count))
         } else if (cur == 'Y') {
           appendInternal(new TTBPDateTimeFormatterBuilder.WeekFieldsPrinterParser('Y', count))
@@ -1503,7 +1506,7 @@ final class DateTimeFormatterBuilder private (
   }
 
   private def parseField(cur: Char, count: Int, field: TemporalField): Unit = {
-    val exc = new IllegalArgumentException(s"Too many pattern letters: $cur")
+    val exc = tooManyPattern(cur)
     cur match {
       case 'u' | 'y' =>
         if (count == 2)

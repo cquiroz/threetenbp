@@ -50,9 +50,9 @@ import scala.annotation.meta.field
 
 @SerialVersionUID(1466499369062886794L)
 object JapaneseEra {
-  private[chrono] val ERA_OFFSET: Int                  = 2
-  private[chrono] val ERA_NAMES: Array[String]         = Array("Meiji", "Taisho", "Showa", "Heisei")
-  private[chrono] val ERA_ABBREVIATIONS: Array[String] = Array("M", "T", "S", "H")
+  private[chrono] def ERA_OFFSET: Int                  = 2
+  private[chrono] def ERA_NAMES: Array[String]         = Array("Meiji", "Taisho", "Showa", "Heisei")
+  private[chrono] def ERA_ABBREVIATIONS: Array[String] = Array("M", "T", "S", "H")
 
   /** The singleton instance for the 'Meiji' era (1868-09-08 - 1912-07-29)
     * which has the value -1.
@@ -77,7 +77,7 @@ object JapaneseEra {
   /**
     * The value of the additional era.
     */
-  private[chrono] val ADDITIONAL_VALUE: Int = 3
+  private[chrono] def ADDITIONAL_VALUE: Int = 3
 
   private[chrono] lazy val KNOWN_ERAS: AtomicReference[Array[JapaneseEra]] = new AtomicReference(
     Array(MEIJI, TAISHO, SHOWA, HEISEI)

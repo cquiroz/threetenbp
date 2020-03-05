@@ -52,40 +52,40 @@ import org.threeten.bp.temporal.ValueRange
 private[chrono] object ChronoLocalDateTimeImpl {
 
   /** Hours per minute. */
-  private val HOURS_PER_DAY: Int = 24
+  private def HOURS_PER_DAY: Int = 24
 
   /** Minutes per hour. */
-  private val MINUTES_PER_HOUR: Int = 60
+  private def MINUTES_PER_HOUR: Int = 60
 
   /** Minutes per day. */
-  private val MINUTES_PER_DAY: Int = MINUTES_PER_HOUR * HOURS_PER_DAY
+  private def MINUTES_PER_DAY: Int = MINUTES_PER_HOUR * HOURS_PER_DAY
 
   /** Seconds per minute. */
-  private val SECONDS_PER_MINUTE: Int = 60
+  private def SECONDS_PER_MINUTE: Int = 60
 
   /** Seconds per hour. */
-  private val SECONDS_PER_HOUR: Int = SECONDS_PER_MINUTE * MINUTES_PER_HOUR
+  private def SECONDS_PER_HOUR: Int = SECONDS_PER_MINUTE * MINUTES_PER_HOUR
 
   /** Seconds per day. */
-  private val SECONDS_PER_DAY: Int = SECONDS_PER_HOUR * HOURS_PER_DAY
+  private def SECONDS_PER_DAY: Int = SECONDS_PER_HOUR * HOURS_PER_DAY
 
   /** Milliseconds per day. */
-  private val MILLIS_PER_DAY: Long = SECONDS_PER_DAY * 1000L
+  private def MILLIS_PER_DAY: Long = SECONDS_PER_DAY * 1000L
 
   /** Microseconds per day. */
-  private val MICROS_PER_DAY: Long = SECONDS_PER_DAY * 1000000L
+  private def MICROS_PER_DAY: Long = SECONDS_PER_DAY * 1000000L
 
   /** Nanos per second. */
-  private val NANOS_PER_SECOND: Long = 1000000000L
+  private def NANOS_PER_SECOND: Long = 1000000000L
 
   /** Nanos per minute. */
-  private val NANOS_PER_MINUTE: Long = NANOS_PER_SECOND * SECONDS_PER_MINUTE
+  private def NANOS_PER_MINUTE: Long = NANOS_PER_SECOND * SECONDS_PER_MINUTE
 
   /** Nanos per hour. */
-  private val NANOS_PER_HOUR: Long = NANOS_PER_MINUTE * MINUTES_PER_HOUR
+  private def NANOS_PER_HOUR: Long = NANOS_PER_MINUTE * MINUTES_PER_HOUR
 
   /** Nanos per day. */
-  private val NANOS_PER_DAY: Long = NANOS_PER_HOUR * HOURS_PER_DAY
+  private def NANOS_PER_DAY: Long = NANOS_PER_HOUR * HOURS_PER_DAY
 
   /** Obtains an instance of {@code ChronoLocalDateTime} from a date and time.
     *

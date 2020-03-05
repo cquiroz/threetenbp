@@ -178,7 +178,7 @@ object JulianFields {
 
     def rangeRefinedBy(temporal: TemporalAccessor): ValueRange =
       if (!isSupportedBy(temporal))
-        throw new UnsupportedTemporalTypeException(s"Unsupported field: $this")
+        throw UnsupportedTemporalTypeException.field(this)
       else range
 
     def getFrom(temporal: TemporalAccessor): Long = temporal.getLong(EPOCH_DAY) + offset

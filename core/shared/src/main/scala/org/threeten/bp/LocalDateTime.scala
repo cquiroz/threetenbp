@@ -1404,7 +1404,7 @@ final class LocalDateTime private (private val date: LocalDate, private val time
             case HALF_DAYS =>
               return Math.addExact(Math.multiplyExact(daysUntil, 2),
                                    timeUntil / (NANOS_PER_HOUR * 12))
-            case _ => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+            case _ => throw UnsupportedTemporalTypeException.unit(unit)
 
           }
         }

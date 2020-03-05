@@ -109,7 +109,7 @@ trait Era extends TemporalAccessor with TemporalAdjuster {
   def getLong(field: TemporalField): Long =
     if (field eq ERA) getValue.toLong
     else if (field.isInstanceOf[ChronoField])
-      throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      throw UnsupportedTemporalTypeException.field(field)
     else field.getFrom(this)
 
   def adjustInto(temporal: Temporal): Temporal = temporal.`with`(ERA, getValue.toLong)

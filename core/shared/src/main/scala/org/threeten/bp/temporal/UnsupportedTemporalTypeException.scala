@@ -55,3 +55,11 @@ class UnsupportedTemporalTypeException(message: String, cause: Throwable)
     this(message, null)
   }
 }
+
+object UnsupportedTemporalTypeException {
+  def field(field: TemporalField): UnsupportedTemporalTypeException =
+    new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+
+  def unit(unit: TemporalUnit): UnsupportedTemporalTypeException =
+    new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+}

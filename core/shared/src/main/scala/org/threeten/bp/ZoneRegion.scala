@@ -48,7 +48,7 @@ import scala.annotation.meta.field
 private object ZoneRegion {
 
   /** The regex pattern for region IDs. */
-  private lazy val PATTERN: Pattern = Pattern.compile("[A-Za-z][A-Za-z0-9~/._+-]+")
+  private def PATTERN: Pattern = Pattern.compile("[A-Za-z][A-Za-z0-9~/._+-]+")
 
   /** Obtains an instance of {@code ZoneRegion} from an identifier without checking
     * if the time-zone has available rules.

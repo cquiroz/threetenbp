@@ -391,14 +391,14 @@ final class TTBPDateTimeParseContext(
 
     override def get(field: TemporalField): Int = {
       if (!fieldValues.containsKey(field))
-        throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+        throw UnsupportedTemporalTypeException.field(field)
       val value: Long = fieldValues.get(field)
       Math.toIntExact(value)
     }
 
     def getLong(field: TemporalField): Long =
       if (!fieldValues.containsKey(field))
-        throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+        throw UnsupportedTemporalTypeException.field(field)
       else
         fieldValues.get(field)
 

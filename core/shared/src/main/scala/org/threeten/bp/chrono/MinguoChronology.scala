@@ -69,7 +69,7 @@ object MinguoChronology {
   lazy val INSTANCE: MinguoChronology = new MinguoChronology
 
   /** The difference in years between ISO and Minguo. */
-  private[chrono] val YEARS_DIFFERENCE: Int = 1911
+  private[chrono] def YEARS_DIFFERENCE: Int = 1911
 }
 
 /** The Minguo calendar system.

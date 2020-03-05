@@ -85,13 +85,13 @@ object LocalDate {
   lazy val MAX: LocalDate = LocalDate.of(Year.MAX_VALUE, 12, 31)
 
   /** The number of days in a 400 year cycle. */
-  private val DAYS_PER_CYCLE: Int = 146097
+  private def DAYS_PER_CYCLE: Int = 146097
 
   /** The number of days from year zero to year 1970.
     * There are five 400 year cycles from year zero to 2000.
     * There are 7 leap years from 1970 to 2000.
     */
-  private[bp] val DAYS_0000_TO_1970: Long = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L)
+  private[bp] def DAYS_0000_TO_1970: Long = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L)
 
   /** Obtains the current date from the system clock in the default time-zone.
     *
@@ -439,7 +439,7 @@ final class LocalDate private (private val year: Int, monthOfYear: Int, dayOfMon
           case _ => field.range
         }
       } else {
-        throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+        throw UnsupportedTemporalTypeException.field(field)
       }
     } else {
       field.rangeRefinedBy(this)
@@ -519,7 +519,7 @@ final class LocalDate private (private val year: Int, monthOfYear: Int, dayOfMon
       case YEAR_OF_ERA                  => if (year >= 1) year.toLong else 1 - year.toLong
       case YEAR                         => year.toLong
       case ERA                          => if (year >= 1) 1 else 0
-      case _                            => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      case _                            => throw UnsupportedTemporalTypeException.field(field)
     }
 
   private def getProlepticMonth: Long = (year * 12L) + (month - 1)
@@ -934,7 +934,7 @@ final class LocalDate private (private val year: Int, monthOfYear: Int, dayOfMon
         case CENTURIES => plusYears(Math.multiplyExact(amountToAdd, 100))
         case MILLENNIA => plusYears(Math.multiplyExact(amountToAdd, 1000))
         case ERAS      => `with`(ERA, Math.addExact(getLong(ERA), amountToAdd))
-        case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+        case _         => throw throw UnsupportedTemporalTypeException.unit(unit)
       }
     } else {
       unit.addTo(this, amountToAdd)
@@ -1254,7 +1254,7 @@ final class LocalDate private (private val year: Int, monthOfYear: Int, dayOfMon
         case CENTURIES => monthsUntil(end) / 1200
         case MILLENNIA => monthsUntil(end) / 12000
         case ERAS      => end.getLong(ERA) - getLong(ERA)
-        case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+        case _         => throw throw UnsupportedTemporalTypeException.unit(unit)
       }
 
     } else {

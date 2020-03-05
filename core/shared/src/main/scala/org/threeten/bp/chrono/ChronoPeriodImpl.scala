@@ -59,7 +59,7 @@ final class ChronoPeriodImpl(
     if (unit eq YEARS) years.toLong
     else if (unit eq MONTHS) months.toLong
     else if (unit eq DAYS) days.toLong
-    else throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+    else throw throw UnsupportedTemporalTypeException.unit(unit)
 
   def getUnits: java.util.List[TemporalUnit] =
     Collections.unmodifiableList(Arrays.asList[TemporalUnit](YEARS, MONTHS, DAYS))

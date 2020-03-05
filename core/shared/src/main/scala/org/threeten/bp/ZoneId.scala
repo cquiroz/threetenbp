@@ -432,7 +432,7 @@ abstract class ZoneId private[bp] () extends Serializable {
       .format(new TemporalAccessor() {
         def isSupported(field: TemporalField): Boolean = false
         def getLong(field:     TemporalField): Long =
-          throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          throw UnsupportedTemporalTypeException.field(field)
         override def query[R](query: TemporalQuery[R]): R =
           if (query eq TemporalQueries.zoneId)
             ZoneId.this.asInstanceOf[R]

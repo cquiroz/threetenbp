@@ -69,19 +69,19 @@ object Instant {
   lazy val EPOCH: Instant = new Instant(0, 0)
 
   /** The minimum supported epoch second. */
-  private val MIN_SECOND: Long = -31557014167219200L
+  private def MIN_SECOND: Long = -31557014167219200L
 
   /** The maximum supported epoch second. */
-  private val MAX_SECOND: Long = 31556889864403199L
+  private def MAX_SECOND: Long = 31556889864403199L
 
   /** Constant for nanos per second. */
-  private val NANOS_PER_SECOND: Int = 1000000000
+  private def NANOS_PER_SECOND: Int = 1000000000
 
   /** Constant for nanos per milli. */
-  private val NANOS_PER_MILLI: Int = 1000000
+  private def NANOS_PER_MILLI: Int = 1000000
 
   /** Constant for millis per sec. */
-  private val MILLIS_PER_SEC = 1000
+  private def MILLIS_PER_SEC = 1000
 
   /** The minimum supported {@code Instant}, '-1000000000-01-01T00:00Z'.
     * This could be used by an application as a "far past" instant.
@@ -437,7 +437,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
           case NANO_OF_SECOND  => nanos
           case MICRO_OF_SECOND => nanos / 1000
           case MILLI_OF_SECOND => nanos / Instant.NANOS_PER_MILLI
-          case _               => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          case _               => throw UnsupportedTemporalTypeException.field(field)
         }
       case _ => range(field).checkValidIntValue(field.getFrom(this), field)
     }
@@ -471,7 +471,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
           case MICRO_OF_SECOND => nanos / 1000L
           case MILLI_OF_SECOND => nanos.toLong / Instant.NANOS_PER_MILLI
           case INSTANT_SECONDS => seconds
-          case _               => throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          case _               => throw UnsupportedTemporalTypeException.field(field)
         }
       case _ => field.getFrom(this)
     }
@@ -574,7 +574,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
           case INSTANT_SECONDS =>
             return if (newValue != seconds) Instant.create(newValue, nanos) else this
           case _ =>
-            throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+            throw UnsupportedTemporalTypeException.field(field)
         }
       case _ =>
     }
@@ -651,7 +651,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
           case DAYS =>
             return plusSeconds(Math.multiplyExact(amountToAdd, SECONDS_PER_DAY.toLong))
           case _ =>
-            throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+            throw UnsupportedTemporalTypeException.unit(unit)
         }
       case _ =>
     }
@@ -890,7 +890,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
           case DAYS =>
             return secondsUntil(end) / SECONDS_PER_DAY
           case _ =>
-            throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+            throw throw UnsupportedTemporalTypeException.unit(unit)
         }
       case _ =>
     }

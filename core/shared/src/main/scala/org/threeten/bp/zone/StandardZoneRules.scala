@@ -50,7 +50,7 @@ import org.threeten.bp.ZoneOffset
 object StandardZoneRules {
 
   /** The last year to have its transitions cached. */
-  private val LAST_CACHED_YEAR: Int = 2100
+  private def LAST_CACHED_YEAR: Int = 2100
 
   /** Reads the state from the stream.
     *

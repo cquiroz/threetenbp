@@ -14,16 +14,16 @@ import java.text.ParseException
 object HijrahDateConfigurator {
 
   /** File separator. */
-  private val FILE_SEP: Char = File.separatorChar
+  private def FILE_SEP: Char = File.separatorChar
 
   /** Path separator. */
-  private val PATH_SEP: String = File.pathSeparator
+  private def PATH_SEP: String = File.pathSeparator
 
   /** Default config file name. */
-  private val DEFAULT_CONFIG_FILENAME: String = "hijrah_deviation.cfg"
+  private def DEFAULT_CONFIG_FILENAME: String = "hijrah_deviation.cfg"
 
   /** Default path to the config file. */
-  private val DEFAULT_CONFIG_PATH: String = s"org${FILE_SEP}threeten${FILE_SEP}bp${FILE_SEP}chrono"
+  private def DEFAULT_CONFIG_PATH: String = s"org${FILE_SEP}threeten${FILE_SEP}bp${FILE_SEP}chrono"
 
   /** Read hijrah_deviation.cfg file. The config file contains the deviation data with
     * following format.

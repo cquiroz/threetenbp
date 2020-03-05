@@ -197,7 +197,7 @@ object IsoFields {
           .isSupported(YEAR) && isIso(temporal)
       def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = {
         if (!temporal.isSupported(this))
-          throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter")
+          throw UnsupportedTemporalTypeException.field(this)
         val qoy: Long = temporal.getLong(QUARTER_OF_YEAR)
         if (qoy == 1) {
           val year: Long = temporal.getLong(YEAR)
@@ -212,7 +212,7 @@ object IsoFields {
       }
       def getFrom(temporal: TemporalAccessor): Long = {
         if (!temporal.isSupported(this))
-          throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter")
+          throw UnsupportedTemporalTypeException.field(this)
         val doy: Int   = temporal.get(DAY_OF_YEAR)
         val moy: Int   = temporal.get(MONTH_OF_YEAR)
         val year: Long = temporal.getLong(YEAR)
@@ -276,7 +276,7 @@ object IsoFields {
       def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = range
       def getFrom(temporal:        TemporalAccessor): Long = {
         if (!temporal.isSupported(this))
-          throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear")
+          throw UnsupportedTemporalTypeException.field(this)
         val moy: Long = temporal.getLong(MONTH_OF_YEAR)
         (moy + 2) / 3
       }
@@ -302,12 +302,12 @@ object IsoFields {
         temporal.isSupported(EPOCH_DAY) && isIso(temporal)
       def rangeRefinedBy(temporal: TemporalAccessor): ValueRange =
         if (!temporal.isSupported(this))
-          throw new UnsupportedTemporalTypeException("Unsupported field: WeekOfWeekBasedYear")
+          throw UnsupportedTemporalTypeException.field(this)
         else
           getWeekRange(LocalDate.from(temporal))
       def getFrom(temporal: TemporalAccessor): Long =
         if (!temporal.isSupported(this))
-          throw new UnsupportedTemporalTypeException("Unsupported field: WeekOfWeekBasedYear")
+          throw UnsupportedTemporalTypeException.field(this)
         else
           getWeek(LocalDate.from(temporal)).toLong
       def adjustInto[R <: Temporal](temporal: R, newValue: Long): R = {
@@ -366,11 +366,11 @@ object IsoFields {
       def rangeRefinedBy(temporal: TemporalAccessor): ValueRange = YEAR.range
       def getFrom(temporal:        TemporalAccessor): Long =
         if (!temporal.isSupported(this))
-          throw new UnsupportedTemporalTypeException("Unsupported field: WeekBasedYear")
+          throw UnsupportedTemporalTypeException.field(this)
         else getWeekBasedYear(LocalDate.from(temporal)).toLong
       def adjustInto[R <: Temporal](temporal: R, newValue: Long): R = {
         if (!isSupportedBy(temporal))
-          throw new UnsupportedTemporalTypeException("Unsupported field: WeekBasedYear")
+          throw UnsupportedTemporalTypeException.field(this)
         val newWby: Int     = range.checkValidIntValue(newValue, WEEK_BASED_YEAR)
         val date: LocalDate = LocalDate.from(temporal)
         val dow: Int        = date.get(DAY_OF_WEEK)

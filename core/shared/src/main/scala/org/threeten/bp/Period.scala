@@ -55,7 +55,7 @@ object Period {
   lazy val ZERO: Period = new Period(0, 0, 0)
 
   /** The pattern for parsing. */
-  private lazy val PATTERN: Pattern = Pattern.compile(
+  private def PATTERN: Pattern = Pattern.compile(
     "([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?",
     Pattern.CASE_INSENSITIVE
   )
@@ -327,7 +327,7 @@ final class Period private (private val years: Int, private val months: Int, pri
     if (unit eq YEARS) years.toLong
     else if (unit eq MONTHS) months.toLong
     else if (unit eq DAYS) days.toLong
-    else throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+    else throw throw UnsupportedTemporalTypeException.unit(unit)
 
   /** Checks if all three units of this period are zero.
     *

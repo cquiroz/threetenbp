@@ -57,7 +57,7 @@ import org.threeten.bp.temporal.ValueRange
 object JapaneseDate {
 
   /** Minimum date. */
-  private[chrono] val MIN_DATE: LocalDate = LocalDate.of(1873, 1, 1)
+  private[chrono] def MIN_DATE: LocalDate = LocalDate.of(1873, 1, 1)
 
   /** Obtains the current {@code JapaneseDate} from the system clock in the default time-zone.
     *
@@ -337,7 +337,7 @@ final class JapaneseDate private[chrono] (
             case _           => getChronology.range(f)
           }
         } else {
-          throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          throw throw UnsupportedTemporalTypeException.field(field)
         }
       case _ =>
         field.rangeRefinedBy(this)
@@ -357,7 +357,7 @@ final class JapaneseDate private[chrono] (
         f match {
           case ALIGNED_DAY_OF_WEEK_IN_MONTH | ALIGNED_DAY_OF_WEEK_IN_YEAR | ALIGNED_WEEK_OF_MONTH |
               ALIGNED_WEEK_OF_YEAR =>
-            throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+            throw throw UnsupportedTemporalTypeException.field(field)
           case YEAR_OF_ERA => yearOfEra.toLong
           case ERA         => era.getValue.toLong
           case DAY_OF_YEAR => getDayOfYear

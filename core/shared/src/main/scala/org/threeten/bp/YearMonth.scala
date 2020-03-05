@@ -321,7 +321,7 @@ final class YearMonth private (private val year: Int, private val month: Int)
       else ValueRange.of(1, Year.MAX_VALUE.toLong)
     else if (field.isInstanceOf[ChronoField])
       if (isSupported(field)) field.range
-      else throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+      else throw UnsupportedTemporalTypeException.field(field)
     else
       field.rangeRefinedBy(this)
 
@@ -380,7 +380,7 @@ final class YearMonth private (private val year: Int, private val month: Int)
       case YEAR            => year.toLong
       case ERA             => if (year < 1) 0 else 1
       case _: ChronoField =>
-        throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+        throw UnsupportedTemporalTypeException.field(field)
       case _ => field.getFrom(this)
     }
 
@@ -550,7 +550,7 @@ final class YearMonth private (private val year: Int, private val month: Int)
         case ERA =>
           return if (getLong(ERA) == newValue) this else withYear(1 - year)
         case _ =>
-          throw new UnsupportedTemporalTypeException(s"Unsupported field: $field")
+          throw UnsupportedTemporalTypeException.field(field)
       }
     }
     field.adjustInto(this, newValue)
@@ -613,7 +613,7 @@ final class YearMonth private (private val year: Int, private val month: Int)
         case CENTURIES => plusYears(Math.multiplyExact(amountToAdd, 100))
         case MILLENNIA => plusYears(Math.multiplyExact(amountToAdd, 1000))
         case ERAS      => `with`(ERA, Math.addExact(getLong(ERA), amountToAdd))
-        case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+        case _         => throw UnsupportedTemporalTypeException.unit(unit)
       }
     } else {
       unit.addTo(this, amountToAdd)
@@ -815,7 +815,7 @@ final class YearMonth private (private val year: Int, private val month: Int)
         case CENTURIES => monthsUntil / 1200
         case MILLENNIA => monthsUntil / 12000
         case ERAS      => end.getLong(ERA) - getLong(ERA)
-        case _         => throw new UnsupportedTemporalTypeException(s"Unsupported unit: $unit")
+        case _         => throw UnsupportedTemporalTypeException.unit(unit)
 
       }
     } else {
