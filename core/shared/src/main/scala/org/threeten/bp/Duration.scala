@@ -351,49 +351,49 @@ object Duration {
     parsed:     String,
     multiplier: Int,
     errorText:  String
-  ): Long = {
-    var _parsed = parsed
-    if (_parsed == null)
-      return 0
-    try {
-      if (_parsed.startsWith("+"))
-        _parsed = _parsed.substring(1)
-      val `val`: Long = java.lang.Long.parseLong(_parsed)
-      Math.multiplyExact(`val`, multiplier.toLong)
-    } catch {
-      case ex: NumberFormatException =>
-        throw new DateTimeParseException(s"Text cannot be parsed to a Duration: $errorText",
-                                         text,
-                                         0,
-                                         ex)
-      case ex: ArithmeticException =>
-        throw new DateTimeParseException(s"Text cannot be parsed to a Duration: $errorText",
-                                         text,
-                                         0,
-                                         ex)
+  ): Long =
+    if (parsed == null) {
+      0
+    } else {
+      try {
+        val p =
+          if (parsed.startsWith("+"))
+            parsed.substring(1)
+          else parsed
+        val v: Long = java.lang.Long.parseLong(p)
+        Math.multiplyExact(v, multiplier.toLong)
+      } catch {
+        case ex: NumberFormatException =>
+          throw new DateTimeParseException(s"Text cannot be parsed to a Duration: $errorText",
+                                           text,
+                                           0,
+                                           ex)
+        case ex: ArithmeticException =>
+          throw new DateTimeParseException(s"Text cannot be parsed to a Duration: $errorText",
+                                           text,
+                                           0,
+                                           ex)
+      }
     }
-  }
 
-  private def parseFraction(text: CharSequence, parsed: String, negate: Int): Int = {
-    var _parsed = parsed
-    if (_parsed == null || _parsed.length == 0)
-      return 0
-    try {
-      _parsed = (_parsed + "000000000").substring(0, 9)
-      _parsed.toInt * negate
-    } catch {
-      case ex: NumberFormatException =>
-        throw new DateTimeParseException("Text cannot be parsed to a Duration: fraction",
-                                         text,
-                                         0,
-                                         ex)
-      case ex: ArithmeticException =>
-        throw new DateTimeParseException("Text cannot be parsed to a Duration: fraction",
-                                         text,
-                                         0,
-                                         ex)
-    }
-  }
+  private def parseFraction(text: CharSequence, parsed: String, negate: Int): Int =
+    if (parsed == null || parsed.length == 0) {
+      0
+    } else
+      try {
+        (parsed + "000000000").substring(0, 9).toInt * negate
+      } catch {
+        case ex: NumberFormatException =>
+          throw new DateTimeParseException("Text cannot be parsed to a Duration: fraction",
+                                           text,
+                                           0,
+                                           ex)
+        case ex: ArithmeticException =>
+          throw new DateTimeParseException("Text cannot be parsed to a Duration: fraction",
+                                           text,
+                                           0,
+                                           ex)
+      }
 
   private def create(
     negate:      Boolean,
