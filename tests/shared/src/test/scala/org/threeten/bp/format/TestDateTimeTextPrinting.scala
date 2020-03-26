@@ -172,4 +172,25 @@ class TestDateTimeTextPrinting extends AnyFunSuite with AssertionsHelper {
     val dt: LocalDateTime    = LocalDateTime.of(2010, 2, 1, 0, 0)
     assertEquals(f.format(dt), "2")
   }
+
+  
+  test("formatFullDate") {
+    Locale.setDefault(Locale.CANADA)  // Passes for both US and CANADA
+    val formatFullDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+    val dt = LocalDateTime.of(2018, 1, 30, 11, 2, 45, 750000)
+    assertResult("January 30, 2018") {dt.format(formatFullDate)}
+  }
+  test("formatDayOfWeek") {
+    Locale.setDefault(Locale.CANADA)  // Passes for US
+    val formatDayOfWeek = DateTimeFormatter.ofPattern("cccc MMM d")   // Thursday Jan. 25
+    val dt = LocalDateTime.of(2018, 1, 30, 11, 2, 45, 750000)
+    assertResult("Tuesday Jan 30") {dt.format(formatDayOfWeek)}
+  }
+  test("formatTime_AM_PM") {
+    Locale.setDefault(Locale.CANADA)  // Fails for both US and CANADA
+    val formatTime_AM_PM = DateTimeFormatter.ofPattern("h:mm a")    // 10:15 PM
+    val dt = LocalDateTime.of(2018, 1, 30, 11, 2, 45, 750000)
+    assertResult("11:02 AM") {dt.format(formatTime_AM_PM)}
+  }
+
 }
